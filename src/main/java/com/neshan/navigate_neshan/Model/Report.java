@@ -20,11 +20,11 @@ import java.util.Date;
 public class Report{
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private ReportType type;//that contains type of report
-        private String description;
-        private Date createdDate;
-        private Date expirationDate;//in this time report is deleted
-
+         Long id;
+         ReportType type;//that contains type of report
+         String description;
+         Date createdDate;
+         Date expirationDate;//in this time report is deleted
+         int likes;
     }
 
