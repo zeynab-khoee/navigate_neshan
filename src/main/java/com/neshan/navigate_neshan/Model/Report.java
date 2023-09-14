@@ -1,13 +1,14 @@
 package com.neshan.navigate_neshan.Model;
 
 import com.neshan.navigate_neshan.Enum.ReportType;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
-import java.util.logging.Level;
 
 @Builder
 @Setter

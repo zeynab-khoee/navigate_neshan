@@ -10,6 +10,6 @@ import org.mapstruct.factory.Mappers;
 public interface ReportMapper {
     ReportMapper INSTANCE = Mappers.getMapper(ReportMapper.class);
 
-    @Mapping(source = "fullName", target = "name")
+    @Mapping(source = "id", target = "id")
     ReportDto userToUserDTO(Report user);
 }
