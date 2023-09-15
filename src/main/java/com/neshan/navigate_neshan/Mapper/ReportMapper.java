@@ -1,7 +1,9 @@
 package com.neshan.navigate_neshan.Mapper;
 
 import com.neshan.navigate_neshan.Dto.ReportDto;
+import com.neshan.navigate_neshan.Dto.UserDto;
 import com.neshan.navigate_neshan.Model.Report;
+import com.neshan.navigate_neshan.Model.UserInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -12,4 +14,5 @@ public interface ReportMapper {
 
     @Mapping(source = "id", target = "id")
     ReportDto reportToReportDTO(Report user);
+
 }
