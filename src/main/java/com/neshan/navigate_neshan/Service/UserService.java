@@ -8,6 +8,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import org.redisson.api.RMap;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,18 +18,34 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserService {
     UserRepo userRepo;
-    private String cacheName = "userCache";
+    RedissonClient redissonClient;
+    RMap<String, UserDto> userCache;
+    String cacheName = "userCache";
 
-    public UserService(UserRepo userRepo) {
+    public UserService(UserRepo userRepo, RedissonClient redissonClient) {
         this.userRepo = userRepo;
+        this.redissonClient = redissonClient;
+        userCache = redissonClient.getMap(cacheName);
     }
 
     public UserDto findUser(String email) {
-        return UserMapper.INSTANCE.userToUserDTO(userRepo.findUserByEmail(email));
+        if (userCache.containsKey(email)) {
+            return userCache.get(email);
+        }
+        // If not cached, fetch from the repository and cache it
+        User user = userRepo.findUserByEmail(email);
+        UserDto userDto = UserMapper.INSTANCE.userToUserDTO(user);
+
+        // Store the result in the cache
+        userCache.put(email, userDto);
+
+        return userDto;
     }
 
     public void save(User user) {
-        userRepo.save(user);
+        userCache.remove(user.getEmail());
+        UserDto userDto = UserMapper.INSTANCE.userToUserDTO(userRepo.save(user));
+        userCache.put(user.getEmail(), userDto);
     }
 
 }
