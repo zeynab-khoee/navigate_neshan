@@ -23,7 +23,7 @@ public class Report {
     LocalDateTime expirationDate;//in this time report is deleted
     int likes;
     @ManyToOne
-    User user;
+    UserInfo user;
     @ManyToOne
     Rout rout;
 }

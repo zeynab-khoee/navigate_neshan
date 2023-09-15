@@ -21,7 +21,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User implements UserDetails {
+public class UserInfo implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;

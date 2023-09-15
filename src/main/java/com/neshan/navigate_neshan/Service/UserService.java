@@ -2,7 +2,7 @@ package com.neshan.navigate_neshan.Service;
 
 import com.neshan.navigate_neshan.Dto.UserDto;
 import com.neshan.navigate_neshan.Mapper.UserMapper;
-import com.neshan.navigate_neshan.Model.User;
+import com.neshan.navigate_neshan.Model.UserInfo;
 import com.neshan.navigate_neshan.Repository.UserRepo;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -33,14 +33,14 @@ public class UserService {
             return userCache.get(email);
         }
         // If not cached, fetch from the repository and cache it
-        User user = userRepo.findUserByEmail(email);
+        UserInfo user = userRepo.findUserByEmail(email);
         UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
         // Store the result in the cache
         userCache.put(email, userDto);
         return userDto;
     }
 
-    public void save(User user) {
+    public void save(UserInfo user) {
         userCache.remove(user.getEmail());
         UserDto userDto = UserMapper.INSTANCE.userToUserDto(userRepo.save(user));
         userCache.put(user.getEmail(), userDto);

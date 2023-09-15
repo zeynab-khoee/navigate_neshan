@@ -6,7 +6,7 @@ import com.neshan.navigate_neshan.Mapper.UserMapper;
 import com.neshan.navigate_neshan.Model.AuthenticationRequest;
 import com.neshan.navigate_neshan.Model.AuthenticationResponse;
 import com.neshan.navigate_neshan.Model.RegisterRequest;
-import com.neshan.navigate_neshan.Model.User;
+import com.neshan.navigate_neshan.Model.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
+        var user = UserInfo.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())

@@ -3,7 +3,7 @@ package com.neshan.navigate_neshan.Service;
 import com.neshan.navigate_neshan.Dto.ReportDto;
 import com.neshan.navigate_neshan.Mapper.ReportMapper;
 import com.neshan.navigate_neshan.Model.Report;
-import com.neshan.navigate_neshan.Model.User;
+import com.neshan.navigate_neshan.Model.UserInfo;
 import com.neshan.navigate_neshan.Repository.ReportRepo;
 import com.neshan.navigate_neshan.Repository.RoutRepo;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class ReportService {
     private final RoutRepo routRepo;
 
     public void createReport(Report report, Long routId) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         report.setUser(user);
         report.setRout(routRepo.findById(routId)
                 .orElse(null));
@@ -40,7 +40,7 @@ public class ReportService {
                 .toList();
     }
 
-    public ReportDto Like(Long reportId) {
+    public ReportDto like(Long reportId) {
         int minutesToPlus = 2;
         Report report = reportRepo.findById(reportId).orElse(null);
         if (report != null) {
