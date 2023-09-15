@@ -35,10 +35,8 @@ public class UserService {
         // If not cached, fetch from the repository and cache it
         User user = userRepo.findUserByEmail(email);
         UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
-
         // Store the result in the cache
         userCache.put(email, userDto);
-
         return userDto;
     }
 

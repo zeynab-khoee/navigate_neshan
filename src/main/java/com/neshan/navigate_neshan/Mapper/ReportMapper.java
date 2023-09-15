@@ -11,5 +11,5 @@ public interface ReportMapper {
     ReportMapper INSTANCE = Mappers.getMapper(ReportMapper.class);
 
     @Mapping(source = "id", target = "id")
-    ReportDto userToUserDTO(Report user);
+    ReportDto reportToReportDTO(Report user);
 }

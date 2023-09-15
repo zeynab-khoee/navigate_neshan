@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Builder
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level= AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class Rout {
     @Id
@@ -19,5 +21,6 @@ public class Rout {
     Location startLocation;
     @ManyToOne
     Location endLocation;
-   // private LineString path;
+    @OneToMany(mappedBy = "rout")
+    List<Report> reportList;
 }

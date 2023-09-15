@@ -1,10 +1,7 @@
 package com.neshan.navigate_neshan.Model;
 
 import com.neshan.navigate_neshan.Enum.RoleType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,6 +30,8 @@ public class User implements UserDetails {
     String email;
     String password;
     RoleType role;
+   @OneToMany(mappedBy = "user")
+    List<Report> reports;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
