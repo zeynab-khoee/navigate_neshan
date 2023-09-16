@@ -1,22 +1,26 @@
-package com.neshan.navigate_neshan.Service;
+package com.neshan.navigate_neshan.Service.Report;
 
 import com.neshan.navigate_neshan.Dto.ReportDto;
 import com.neshan.navigate_neshan.Mapper.ReportMapper;
-import com.neshan.navigate_neshan.Model.Report;
+import com.neshan.navigate_neshan.Model.Report.Report;
 import com.neshan.navigate_neshan.Model.UserInfo;
-import com.neshan.navigate_neshan.Repository.ReportRepo;
+import com.neshan.navigate_neshan.Repository.ReportRepo.ReportRepo;
 import com.neshan.navigate_neshan.Repository.RoutRepo;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+
 @Service
 public class ReportService {
     ReportRepo reportRepo;
-    private final RoutRepo routRepo;
+    RoutRepo routRepo;
 
     public void createReport(Report report, Long routId) {
         UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -24,14 +28,6 @@ public class ReportService {
         report.setRout(routRepo.findById(routId)
                 .orElse(null));
         reportRepo.save(report);
-    }
-
-    public ReportDto findReportById(Long reportId) {
-        Report report = reportRepo.findById(reportId).orElse(null);
-        if (report != null) {
-            return ReportMapper.INSTANCE.reportToReportDTO(report);
-        }
-        return null;
     }
 
     public List<ReportDto> getAllReportByRoutId(Long routId) {
@@ -63,5 +59,7 @@ public class ReportService {
         }
         return null;
     }
+
+
 
 }
