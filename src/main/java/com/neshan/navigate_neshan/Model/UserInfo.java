@@ -1,6 +1,7 @@
 package com.neshan.navigate_neshan.Model;
 
 import com.neshan.navigate_neshan.Enum.RoleType;
+import com.neshan.navigate_neshan.Model.Report.Report;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

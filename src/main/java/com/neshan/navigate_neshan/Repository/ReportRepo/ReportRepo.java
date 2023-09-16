@@ -1,6 +1,6 @@
-package com.neshan.navigate_neshan.Repository;
+package com.neshan.navigate_neshan.Repository.ReportRepo;
 
-import com.neshan.navigate_neshan.Model.Report;
+import com.neshan.navigate_neshan.Model.Report.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
