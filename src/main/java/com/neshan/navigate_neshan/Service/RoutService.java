@@ -8,10 +8,12 @@ import lombok.experimental.FieldDefaults;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.io.WKTReader;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -19,7 +21,8 @@ import java.util.List;
 public class RoutService {
     ReportRepo reportRepo;
 
-    public List<Report> getReportsWithin10Units(String wktString) {
+    @Async // Add the @Async annotation to enable asynchronous execution
+    public CompletableFuture<List<Report>> getReportsWithin10Units(String wktString) {
         try {
             GeometryFactory geometryFactory = new GeometryFactory();
             WKTReader wktReader = new WKTReader(geometryFactory);
@@ -27,13 +30,12 @@ public class RoutService {
             double bufferDistance = 10.0;
             Geometry buffer = inputGeometry.buffer(bufferDistance);
 
-            return reportRepo.findReportsIntersectingWithBuffer(buffer);
+            List<Report> reports = reportRepo.findReportsIntersectingWithBuffer(buffer);
+            return CompletableFuture.completedFuture(reports);
         } catch (Exception e) {
             e.printStackTrace();
-
-            return Collections.emptyList();
+            return CompletableFuture.completedFuture(Collections.emptyList());
         }
     }
 }
-
 

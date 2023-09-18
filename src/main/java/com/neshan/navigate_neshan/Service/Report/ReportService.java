@@ -40,7 +40,6 @@ public class ReportService implements ReportHandler {
                 .toList();
     }
 
-
     public ReportDto like(Long reportId) {
         UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int minutesToPlus = 2;

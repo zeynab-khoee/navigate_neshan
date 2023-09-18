@@ -2,6 +2,7 @@ package com.neshan.navigate_neshan.Controller.Report;
 
 import com.neshan.navigate_neshan.Component.ReportFactory;
 import com.neshan.navigate_neshan.Dto.ReportDto;
+import com.neshan.navigate_neshan.Enum.ReportType;
 import com.neshan.navigate_neshan.Model.Report.Report;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,9 @@ import java.util.List;
 @RequestMapping("/Report")
 public class ReportController {
     ReportFactory reportFactory;
-    @PostMapping("/{routId}")
-    public void createItem(@RequestBody Report report,@PathVariable Long routId) {
-        reportFactory.createReport(report, routId);
+    @PostMapping("/{type}")
+    public void createReport(@RequestBody Report report,@PathVariable ReportType type) {
+        reportFactory.createReport(report,type);
     }
 
     @GetMapping("{routId}")

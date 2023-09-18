@@ -8,6 +8,7 @@ import com.neshan.navigate_neshan.Repository.RoutRepo;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +16,12 @@ import org.springframework.stereotype.Service;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Service
 public class CameraReportService implements ReportHandler {
-    RoutRepo routRepo;
     ReportRepo reportRepo;
-
-    public void createReport(Report report, Long routId) {
+    @Async
+    public void createReport(Report report, ReportType type) {
         UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         report.setUser(user);
         report.setReportType(ReportType.CAMERA);
-        report.setRout(routRepo.findById(routId)
-                .orElse(null));
         reportRepo.save(report);
     }
 

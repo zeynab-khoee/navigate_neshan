@@ -1,6 +1,7 @@
 package com.neshan.navigate_neshan.Component;
 
 import com.neshan.navigate_neshan.Dto.ReportDto;
+import com.neshan.navigate_neshan.Enum.ReportType;
 import com.neshan.navigate_neshan.Model.Report.Report;
 import com.neshan.navigate_neshan.Service.Report.AccidentReportService;
 import com.neshan.navigate_neshan.Service.Report.CameraReportService;
@@ -23,20 +24,18 @@ public class ReportFactory {
         this.reportHandlers = reportHandlers;
     }
 
-    public void createReport(Report report, Long routId) {
-        switch (report.getReportType()) {
+    public void createReport(Report report, ReportType type) {
+        switch (type) {
             case CAMERA -> reportHandlers.stream()
                     .filter(handler -> handler instanceof CameraReportService)
                     .findFirst().orElseThrow(() -> new IllegalArgumentException("CameraReportService not found"))
-                    .createReport(report, routId);
+                    .createReport(report, type);
 
 
             case ACCIDENT -> reportHandlers.stream()
                     .filter(handler -> handler instanceof AccidentReportService)
                     .findFirst().orElseThrow(() -> new IllegalArgumentException("CameraReportService not found"))
-                    .createReport(report, routId);
-
-
+                    .createReport(report, type);
         }
 
         throw new IllegalArgumentException("Invalid report type: " + report.getReportType());
@@ -50,8 +49,6 @@ public class ReportFactory {
                 .like(reportId);
 
     }
-
-
     public ReportDto disLike(Long reportId) {
         return reportHandlers.stream()
                 .filter(handler -> handler instanceof ReportService)
