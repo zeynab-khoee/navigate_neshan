@@ -1,11 +1,11 @@
-package com.neshan.navigate_neshan.Service;
+package com.neshan.navigate_neshan.Service.Report;
 
 import com.neshan.navigate_neshan.Dto.ReportDto;
+import com.neshan.navigate_neshan.Enum.RoleType;
 import com.neshan.navigate_neshan.Mapper.ReportMapper;
-import com.neshan.navigate_neshan.Model.Report;
+import com.neshan.navigate_neshan.Model.Report.Report;
 import com.neshan.navigate_neshan.Model.UserInfo;
-import com.neshan.navigate_neshan.Repository.ReportRepo;
-import com.neshan.navigate_neshan.Repository.RoutRepo;
+import com.neshan.navigate_neshan.Repository.ReportRepo.ReportRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -14,16 +14,16 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class ReportService {
+public class ReportService implements ReportHandler {
     ReportRepo reportRepo;
-    private final RoutRepo routRepo;
 
-    public void createReport(Report report, Long routId) {
+    public void confirmByOperator(Long reportId) {
         UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        report.setUser(user);
-        report.setRout(routRepo.findById(routId)
-                .orElse(null));
-        reportRepo.save(report);
+        ReportDto reportDto = findReportById(reportId);
+        Report report = ReportMapper.INSTANCE.reportDtoToReport(reportDto);
+        if (user.getRole() == RoleType.ADMIN && report.isRequiredConfirm()) {
+            report.setAccepted(true);
+        }
     }
 
     public ReportDto findReportById(Long reportId) {
@@ -40,11 +40,14 @@ public class ReportService {
                 .toList();
     }
 
+
     public ReportDto like(Long reportId) {
+        UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int minutesToPlus = 2;
         Report report = reportRepo.findById(reportId).orElse(null);
         if (report != null) {
             report.setLikes(report.getLikes() + 1);
+            report.getUserInfoLiked().remove(user);
             report.setExpirationDate(report.getExpirationDate().plusMinutes(minutesToPlus));
             reportRepo.save(report);
             return ReportMapper.INSTANCE.reportToReportDTO(report);
@@ -53,10 +56,12 @@ public class ReportService {
     }
 
     public ReportDto disLike(Long reportId) {
+        UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int minutesToMinus = 2;
         Report report = reportRepo.findById(reportId).orElse(null);
         if (report != null) {
             report.setLikes(report.getLikes() + 1);
+            report.getUserInfoLiked().add(user);
             report.setExpirationDate(report.getExpirationDate().minusMinutes(minutesToMinus));
             reportRepo.save(report);
             return ReportMapper.INSTANCE.reportToReportDTO(report);
