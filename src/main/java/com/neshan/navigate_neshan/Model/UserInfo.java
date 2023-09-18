@@ -33,7 +33,12 @@ public class UserInfo implements UserDetails {
     RoleType role;
    @OneToMany(mappedBy = "user")
     List<Report> reports;
-
+   @ManyToMany
+    @JoinTable(
+            name = "report_user_like",
+            joinColumns = @JoinColumn(name = "Userid"),
+            inverseJoinColumns = @JoinColumn(name = "report_id"))
+    List<Report> reportListLiked;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

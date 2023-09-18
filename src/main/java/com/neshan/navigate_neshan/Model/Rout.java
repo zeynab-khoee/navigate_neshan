@@ -1,5 +1,6 @@
 package com.neshan.navigate_neshan.Model;
 
+import com.neshan.navigate_neshan.Model.Report.Report;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,10 +18,7 @@ public class Rout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @ManyToOne
-    Location startLocation;
-    @ManyToOne
-    Location endLocation;
+    String wktString;
     @OneToMany(mappedBy = "rout")
     List<Report> reportList;
 }
