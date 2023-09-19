@@ -1,6 +1,7 @@
 package com.neshan.navigate_neshan.Config;
 
 
+import com.neshan.navigate_neshan.Enum.RoleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/v*/auth/**").permitAll()
+                        .requestMatchers("/reports/*/confirm")
+                        .hasAnyAuthority(RoleType.ADMIN.name())
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)

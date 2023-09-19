@@ -32,18 +32,16 @@ public class UserService {
         if (userCache.containsKey(email)) {
             return userCache.get(email);
         }
-        // If not cached, fetch from the repository and cache it
         UserInfo user = userRepo.findUserByEmail(email);
         UserDto userDto = UserMapper.INSTANCE.userToUserDto(user);
-        // Store the result in the cache
         userCache.put(email, userDto);
         return userDto;
     }
 
     public void save(UserInfo user) {
-        userCache.remove(user.getEmail());
-        UserDto userDto = UserMapper.INSTANCE.userToUserDto(userRepo.save(user));
-        userCache.put(user.getEmail(), userDto);
+       // userCache.remove(user.getEmail());
+         userRepo.save(user);
+        // UserMapper.INSTANCE.userToUserDto(userRepo.save(user));
     }
 
 }

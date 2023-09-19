@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Builder
+@ToString
 @Setter
 @Getter
 @NoArgsConstructor
@@ -30,9 +31,10 @@ public class Report {
     int likes;
     @ManyToOne
     UserInfo user;
-    @ManyToMany(mappedBy = "reportListLiked")
+    @ManyToMany(mappedBy = "reportListLiked", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     List<UserInfo> userInfoLiked;
     @ManyToOne
+    @JoinColumn(name = "rout_id")
     Rout rout;
     ReportType reportType;
 }

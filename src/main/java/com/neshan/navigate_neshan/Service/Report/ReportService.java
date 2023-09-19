@@ -6,32 +6,32 @@ import com.neshan.navigate_neshan.Mapper.ReportMapper;
 import com.neshan.navigate_neshan.Model.Report.Report;
 import com.neshan.navigate_neshan.Model.UserInfo;
 import com.neshan.navigate_neshan.Repository.ReportRepo.ReportRepo;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@ToString
 @RequiredArgsConstructor
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReportService implements ReportHandler {
     ReportRepo reportRepo;
 
     public void confirmByOperator(Long reportId) {
-        UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ReportDto reportDto = findReportById(reportId);
-        Report report = ReportMapper.INSTANCE.reportDtoToReport(reportDto);
-        if (user.getRole() == RoleType.ADMIN && report.isRequiredConfirm()) {
-            report.setAccepted(true);
-        }
-    }
-
-    public ReportDto findReportById(Long reportId) {
         Report report = reportRepo.findById(reportId).orElse(null);
         if (report != null) {
-            return ReportMapper.INSTANCE.reportToReportDTO(report);
+            if (report.isRequiredConfirm()) {
+                report.setAccepted(true);
+            }
+            reportRepo.save(report);
+        } else {
+            throw new NullPointerException("Report is null");
         }
-        return null;
     }
 
     public List<ReportDto> getAllReportByRoutId(Long routId) {
@@ -40,30 +40,36 @@ public class ReportService implements ReportHandler {
                 .toList();
     }
 
-    public ReportDto like(Long reportId) {
+    public Report like(Long reportId) {
         UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int minutesToPlus = 2;
         Report report = reportRepo.findById(reportId).orElse(null);
+
         if (report != null) {
+            if (!report.getUserInfoLiked().contains(user)) {
+                report.getUserInfoLiked().add(user);
+                user.getReportListLiked().add(report);
+            }
+
             report.setLikes(report.getLikes() + 1);
-            report.getUserInfoLiked().remove(user);
             report.setExpirationDate(report.getExpirationDate().plusMinutes(minutesToPlus));
-            reportRepo.save(report);
-            return ReportMapper.INSTANCE.reportToReportDTO(report);
+
+            // Save the report (which will also update the relationships)
+            return reportRepo.save(report);
         }
+
         return null;
     }
 
-    public ReportDto disLike(Long reportId) {
+    public Report disLike(Long reportId) {
         UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int minutesToMinus = 2;
         Report report = reportRepo.findById(reportId).orElse(null);
         if (report != null) {
-            report.setLikes(report.getLikes() + 1);
-            report.getUserInfoLiked().add(user);
+            report.setLikes(report.getLikes() - 1);
+            report.getUserInfoLiked().remove(user);
             report.setExpirationDate(report.getExpirationDate().minusMinutes(minutesToMinus));
-            reportRepo.save(report);
-            return ReportMapper.INSTANCE.reportToReportDTO(report);
+            return reportRepo.save(report);
         }
         return null;
     }
