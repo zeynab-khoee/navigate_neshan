@@ -42,8 +42,9 @@ public class UserService {
 
     public void save(UserInfo user) {
         userCache.remove(user.getEmail());
-        UserDto userDto = UserMapper.INSTANCE.userToUserDto(userRepo.save(user));
-        userCache.put(user.getEmail(), userDto);
+       // UserDto userDto = UserMapper.INSTANCE.userToUserDto(userRepo.save(user));
+        userRepo.save(user);
+       // userCache.put(user.getEmail(), userDto);
     }
 
 }

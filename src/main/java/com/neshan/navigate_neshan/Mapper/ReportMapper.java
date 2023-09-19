@@ -6,11 +6,13 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Optional;
+
 @Mapper
 public interface ReportMapper {
     ReportMapper INSTANCE = Mappers.getMapper(ReportMapper.class);
 
     @Mapping(source = "id", target = "id")
     ReportDto reportToReportDTO(Report user);
-    Report reportDtoToReport(ReportDto reportDto);
+    Report reportDtoToReport(Optional<Report> reportDto);
 }

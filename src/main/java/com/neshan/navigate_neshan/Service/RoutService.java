@@ -7,13 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.WKTReader;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -21,21 +19,18 @@ import java.util.concurrent.CompletableFuture;
 public class RoutService {
     ReportRepo reportRepo;
 
-    @Async // Add the @Async annotation to enable asynchronous execution
-    public CompletableFuture<List<Report>> getReportsWithin10Units(String wktString) {
-        try {
-            GeometryFactory geometryFactory = new GeometryFactory();
-            WKTReader wktReader = new WKTReader(geometryFactory);
-            Geometry inputGeometry = wktReader.read(wktString);
-            double bufferDistance = 10.0;
-            Geometry buffer = inputGeometry.buffer(bufferDistance);
+    public List<Report> findReportsWithinDistance(String wktGeometry) throws Exception {
+        Geometry bufferGeometry = createBufferFromWKT(wktGeometry);
 
-            List<Report> reports = reportRepo.findReportsIntersectingWithBuffer(buffer);
-            return CompletableFuture.completedFuture(reports);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return CompletableFuture.completedFuture(Collections.emptyList());
-        }
+        return reportRepo.findReportsIntersectingWithBuffer(bufferGeometry);
+    }
+
+    private Geometry createBufferFromWKT(String wktGeometry) throws Exception {
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+        WKTReader wktReader = new WKTReader(geometryFactory);
+        Geometry geometry = wktReader.read(wktGeometry);
+        return geometry.buffer(10);
     }
 }
+
 

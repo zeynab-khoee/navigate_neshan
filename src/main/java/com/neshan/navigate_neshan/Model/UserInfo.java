@@ -20,8 +20,8 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-@Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Entity
 public class UserInfo implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class UserInfo implements UserDetails {
     RoleType role;
    @OneToMany(mappedBy = "user")
     List<Report> reports;
-   @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "report_user_like",
             joinColumns = @JoinColumn(name = "Userid"),

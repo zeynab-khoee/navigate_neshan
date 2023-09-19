@@ -10,7 +10,8 @@ import java.util.List;
 
 @Repository
 public interface ReportRepo extends JpaRepository<Report, Long> {
-    @Query("SELECT r FROM Report r WHERE ST_Intersects(r.rout.wktString, ?1)= true and r.isAccepted=true")
+    //@Query(value = "SELECT r.* FROM Report r JOIN Rout rt ON r.rout_id = rt.id WHERE ST_Intersects(ST_GeomFromText(rt.wkt_string, 4326), :buffer) = true", nativeQuery = true)
+    @Query("SELECT r FROM Report r JOIN r.rout rt WHERE FUNCTION('ST_Intersects', FUNCTION('ST_GeomFromText', rt.wktString), :buffer) = true AND r.isAccepted = true")
     List<Report> findReportsIntersectingWithBuffer(Geometry buffer);
     List<Report> getReportListByRoutId(Long rout_id);
 }
