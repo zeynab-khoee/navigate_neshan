@@ -25,7 +25,7 @@ public class Report {
     Long id;
     String description;
     LocalDateTime createdDate;
-    LocalDateTime expirationDate;//in this time report is deleted
+    LocalDateTime expirationDate;//in this time report dost show
     boolean requiredConfirm = true; //default is true
     boolean isAccepted;
     int likes;

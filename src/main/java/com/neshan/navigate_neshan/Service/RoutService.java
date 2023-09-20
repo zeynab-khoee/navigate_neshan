@@ -1,6 +1,5 @@
 package com.neshan.navigate_neshan.Service;
 
-import com.neshan.navigate_neshan.Model.Report.Report;
 import com.neshan.navigate_neshan.Repository.ReportRepo.ReportRepo;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +8,9 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.WKTReader;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -21,8 +18,8 @@ import java.util.concurrent.CompletableFuture;
 public class RoutService {
     ReportRepo reportRepo;
 
-    public List<Report> findReportsWithinDistance(String wktGeometry) throws Exception {
-          Geometry bufferGeometry = createBufferFromWKT(wktGeometry);
+    public List<String> findReportsWithinDistance(String wktGeometry) throws Exception {
+        Geometry bufferGeometry = createBufferFromWKT(wktGeometry);
 
         return reportRepo.findReportsIntersectingWithBuffer(bufferGeometry);
     }

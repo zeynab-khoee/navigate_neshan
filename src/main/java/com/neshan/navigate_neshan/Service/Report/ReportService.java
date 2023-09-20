@@ -1,7 +1,6 @@
 package com.neshan.navigate_neshan.Service.Report;
 
 import com.neshan.navigate_neshan.Dto.ReportDto;
-import com.neshan.navigate_neshan.Enum.RoleType;
 import com.neshan.navigate_neshan.Mapper.ReportMapper;
 import com.neshan.navigate_neshan.Model.Report.Report;
 import com.neshan.navigate_neshan.Model.UserInfo;
@@ -74,4 +73,8 @@ public class ReportService implements ReportHandler {
         return null;
     }
 
+    public String findHourWithMostAccidents() {
+        return reportRepo.findHourAndAccidentCountWithMostAccidents();
+
+    }
 }

@@ -10,7 +10,6 @@ import com.neshan.navigate_neshan.Service.Report.ReportService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,5 +41,9 @@ public class ReportFactory {
     }
     public void confirmByOperator(Long reportId) {
         reportService.confirmByOperator(reportId);
+    }
+
+    public String mostAccident() {
+        return reportService.findHourWithMostAccidents();
     }
 }

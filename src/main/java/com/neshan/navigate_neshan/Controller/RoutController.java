@@ -1,6 +1,5 @@
 package com.neshan.navigate_neshan.Controller;
 
-import com.neshan.navigate_neshan.Model.Report.Report;
 import com.neshan.navigate_neshan.Service.RoutService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +21,10 @@ public class RoutController {
     RoutService routService;
 
     @PostMapping("/getReport")
-    public ResponseEntity<List<Report>> generateLineString(@RequestBody String wktString) {
+    public ResponseEntity<List<String>> generateLineString(@RequestBody String wktString) {
         try {
-            List<Report> reports = routService.findReportsWithinDistance(wktString);
-            return new ResponseEntity<>(reports, HttpStatus.OK);
+            List<String> reportDescriptions = routService.findReportsWithinDistance(wktString);
+            return new ResponseEntity<>(reportDescriptions, HttpStatus.OK);
         } catch (Exception e) {
             // Handle any exceptions or errors here
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

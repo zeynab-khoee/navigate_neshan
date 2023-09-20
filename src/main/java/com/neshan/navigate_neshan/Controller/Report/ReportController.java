@@ -20,6 +20,10 @@ public class ReportController {
     public void createReport(@RequestBody Report report, @PathVariable ReportType type) {
         reportFactory.createReport(report, type, report.getRout());
     }
+    @GetMapping("/most")
+    public String mostAccident() {
+       return reportFactory.mostAccident();
+    }
 
     @GetMapping("{routId}")
     public List<ReportDto> getAllReportByRoutId(@PathVariable Long routId) {
