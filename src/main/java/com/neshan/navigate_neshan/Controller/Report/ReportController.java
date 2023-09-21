@@ -1,9 +1,9 @@
 package com.neshan.navigate_neshan.Controller.Report;
 
 import com.neshan.navigate_neshan.Component.ReportFactory;
-import com.neshan.navigate_neshan.Dto.ReportDto;
-import com.neshan.navigate_neshan.Enum.ReportType;
-import com.neshan.navigate_neshan.Model.Report.Report;
+import com.neshan.navigate_neshan.Data.Dto.ReportDto;
+import com.neshan.navigate_neshan.Data.Enum.ReportType;
+import com.neshan.navigate_neshan.Data.Model.Report.Report;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

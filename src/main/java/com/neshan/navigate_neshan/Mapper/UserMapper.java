@@ -1,7 +1,7 @@
 package com.neshan.navigate_neshan.Mapper;
 
-import com.neshan.navigate_neshan.Dto.UserDto;
-import com.neshan.navigate_neshan.Model.UserInfo;
+import com.neshan.navigate_neshan.Data.Dto.UserDto;
+import com.neshan.navigate_neshan.Data.Model.UserInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

@@ -1,12 +1,12 @@
 package com.neshan.navigate_neshan.Service;
 
 
-import com.neshan.navigate_neshan.Enum.RoleType;
+import com.neshan.navigate_neshan.Data.Enum.RoleType;
+import com.neshan.navigate_neshan.Data.Model.AuthenticationRequest;
+import com.neshan.navigate_neshan.Data.Model.AuthenticationResponse;
+import com.neshan.navigate_neshan.Data.Model.RegisterRequest;
+import com.neshan.navigate_neshan.Data.Model.UserInfo;
 import com.neshan.navigate_neshan.Mapper.UserMapper;
-import com.neshan.navigate_neshan.Model.AuthenticationRequest;
-import com.neshan.navigate_neshan.Model.AuthenticationResponse;
-import com.neshan.navigate_neshan.Model.RegisterRequest;
-import com.neshan.navigate_neshan.Model.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

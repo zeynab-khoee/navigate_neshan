@@ -1,4 +1,4 @@
-package com.neshan.navigate_neshan.Model;
+package com.neshan.navigate_neshan.Data.Model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,6 +9,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AuthenticationResponse {
-    String token;
+public class RegisterRequest {
+    String firstname;
+    String lastname;
+    String email;
+    String password;
 }

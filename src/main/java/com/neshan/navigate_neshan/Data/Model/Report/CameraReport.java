@@ -1,4 +1,4 @@
-package com.neshan.navigate_neshan.Model.Report;
+package com.neshan.navigate_neshan.Data.Model.Report;
 
 import jakarta.persistence.Entity;
 import lombok.ToString;

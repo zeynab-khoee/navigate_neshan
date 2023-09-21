@@ -1,6 +1,6 @@
 package com.neshan.navigate_neshan.Repository.ReportRepo;
 
-import com.neshan.navigate_neshan.Model.Report.Report;
+import com.neshan.navigate_neshan.Data.Model.Report.Report;
 import org.locationtech.jts.geom.Geometry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +13,7 @@ public interface ReportRepo extends JpaRepository<Report, Long> {
     @Query(value = "SELECT r.description " +
             "FROM Report r " +
             "WHERE EXISTS " +
-            "(SELECT 1 " +
+            "(SELECT * " +
             "FROM Rout rt " +
             "WHERE ST_Intersects(ST_GeomFromText(rt.wkt_string, 4326), ?1))" +
             "AND r.expiration_date > CURRENT_TIMESTAMP " +
@@ -31,5 +31,13 @@ public interface ReportRepo extends JpaRepository<Report, Long> {
             "ORDER BY COUNT(*) DESC " +
             "LIMIT 1", nativeQuery = true)
     String findHourAndAccidentCountWithMostAccidents();
+
+
+    @Query(
+            value = "SELECT count(*) FROM report r INNER JOIN rout ro ON r.rout_id = ro.id " +
+                    "WHERE r.user_id = ?1 AND ro.wkt_string = ?2",
+            nativeQuery = true
+    )
+    int findReportsByUserAndWktStringNative(Long userId, String wktString);
 
 }

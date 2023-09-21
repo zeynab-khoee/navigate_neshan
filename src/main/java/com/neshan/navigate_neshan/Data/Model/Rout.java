@@ -1,6 +1,6 @@
-package com.neshan.navigate_neshan.Model;
+package com.neshan.navigate_neshan.Data.Model;
 
-import com.neshan.navigate_neshan.Model.Report.Report;
+import com.neshan.navigate_neshan.Data.Model.Report.Report;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

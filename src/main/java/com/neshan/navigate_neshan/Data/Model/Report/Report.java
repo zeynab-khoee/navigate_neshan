@@ -1,8 +1,8 @@
-package com.neshan.navigate_neshan.Model.Report;
+package com.neshan.navigate_neshan.Data.Model.Report;
 
-import com.neshan.navigate_neshan.Enum.ReportType;
-import com.neshan.navigate_neshan.Model.Rout;
-import com.neshan.navigate_neshan.Model.UserInfo;
+import com.neshan.navigate_neshan.Data.Enum.ReportType;
+import com.neshan.navigate_neshan.Data.Model.Rout;
+import com.neshan.navigate_neshan.Data.Model.UserInfo;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

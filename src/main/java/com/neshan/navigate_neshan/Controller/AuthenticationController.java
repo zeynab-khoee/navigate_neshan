@@ -1,9 +1,9 @@
 package com.neshan.navigate_neshan.Controller;
 
 
-import com.neshan.navigate_neshan.Model.AuthenticationRequest;
-import com.neshan.navigate_neshan.Model.AuthenticationResponse;
-import com.neshan.navigate_neshan.Model.RegisterRequest;
+import com.neshan.navigate_neshan.Data.Model.AuthenticationRequest;
+import com.neshan.navigate_neshan.Data.Model.AuthenticationResponse;
+import com.neshan.navigate_neshan.Data.Model.RegisterRequest;
 import com.neshan.navigate_neshan.Service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

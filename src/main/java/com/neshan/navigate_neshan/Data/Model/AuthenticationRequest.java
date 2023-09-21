@@ -1,17 +1,16 @@
-package com.neshan.navigate_neshan.Model;
+package com.neshan.navigate_neshan.Data.Model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-@Setter
-@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RegisterRequest {
-    String firstname;
-    String lastname;
+public class AuthenticationRequest {
+
     String email;
     String password;
 }

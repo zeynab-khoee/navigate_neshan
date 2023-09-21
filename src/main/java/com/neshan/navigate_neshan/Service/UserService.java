@@ -1,8 +1,8 @@
 package com.neshan.navigate_neshan.Service;
 
-import com.neshan.navigate_neshan.Dto.UserDto;
+import com.neshan.navigate_neshan.Data.Dto.UserDto;
+import com.neshan.navigate_neshan.Data.Model.UserInfo;
 import com.neshan.navigate_neshan.Mapper.UserMapper;
-import com.neshan.navigate_neshan.Model.UserInfo;
 import com.neshan.navigate_neshan.Repository.UserRepo;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -39,9 +39,7 @@ public class UserService {
     }
 
     public void save(UserInfo user) {
-       // userCache.remove(user.getEmail());
          userRepo.save(user);
-        // UserMapper.INSTANCE.userToUserDto(userRepo.save(user));
     }
 
 }

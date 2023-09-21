@@ -1,9 +1,9 @@
 package com.neshan.navigate_neshan.Component;
 
-import com.neshan.navigate_neshan.Dto.ReportDto;
-import com.neshan.navigate_neshan.Enum.ReportType;
-import com.neshan.navigate_neshan.Model.Report.Report;
-import com.neshan.navigate_neshan.Model.Rout;
+import com.neshan.navigate_neshan.Data.Dto.ReportDto;
+import com.neshan.navigate_neshan.Data.Enum.ReportType;
+import com.neshan.navigate_neshan.Data.Model.Report.Report;
+import com.neshan.navigate_neshan.Data.Model.Rout;
 import com.neshan.navigate_neshan.Service.Report.AccidentReportService;
 import com.neshan.navigate_neshan.Service.Report.CameraReportService;
 import com.neshan.navigate_neshan.Service.Report.ReportService;
