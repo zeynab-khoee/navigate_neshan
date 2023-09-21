@@ -10,12 +10,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 @ToString
 @RequiredArgsConstructor
@@ -24,12 +27,17 @@ import java.time.LocalDateTime;
 public class AccidentReportService implements ReportHandler {
     ReportRepo reportRepo;
     RoutRepo routRepo;
+    RedissonClient redissonClient;
 
     public void createReport(Report report, ReportType type, Rout rout) {
         UserInfo user = (UserInfo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         report.setUser(user);
         int repeat = reportRepo.findReportsByUserAndWktStringNative(user.getId(), rout.getWktString());
-        System.out.println(repeat);
+        String lockKey = report.getReportType() + "_report_creation_lock_" + user.getId();
+        RLock lock = redissonClient.getLock(lockKey);
+        try {
+            boolean isLocked = lock.tryLock(40, TimeUnit.SECONDS);
+            if (isLocked) {
         if (repeat == 0) {
             report.setReportType(ReportType.ACCIDENT);
             report.setCreatedDate(LocalDateTime.now());
@@ -40,6 +48,12 @@ public class AccidentReportService implements ReportHandler {
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-    }
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } finally {
+            lock.unlock();
+        }
 
+    }
 }
